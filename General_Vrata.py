@@ -1,5 +1,4 @@
 import JivaCalendar_FrontEnd as jcf
-import JivaCalendar_Ecliptic as jce
 
 from datetime import timedelta
 from datetime import timezone as tmz
@@ -14,7 +13,7 @@ def calculate_vrata(data,accuracy=0.001,ayanamsa='citrapaksa',timezone_offset=No
 	# data is a list of days, where each day is a dict. Make sure a few days before and 
 	# after are included
 
-	if type(data[0])==list:
+	if type(data[0]) is list:
 		# if the data is year_data, then it is a list of list. Here I flatten it.
 		data = [d for sub_list in data for d in sub_list]
 

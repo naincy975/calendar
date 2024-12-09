@@ -14,20 +14,18 @@ The final calendar code will be contained in 2 files. One is labelled JivaCalend
 """
 
 from astroplan import Observer
-from astropy import units as u
 from astropy.time import Time
-from astropy.coordinates import solar_system_ephemeris, EarthLocation
-from astropy.coordinates import get_body_barycentric, get_body, get_moon, get_sun
-from astropy.coordinates import SkyCoord, GCRS, ICRS, Angle, GeocentricTrueEcliptic, GeocentricMeanEcliptic
+from astropy.coordinates import solar_system_ephemeris
+from astropy.coordinates import get_body
+from astropy.coordinates import SkyCoord, Angle, GeocentricTrueEcliptic
 
 from astral import LocationInfo
 from astral.sun import sun
 
 import numpy as np
 from scipy.optimize import fsolve
-from datetime import date, timedelta, datetime, time, timezone
+from datetime import timedelta, datetime, time
 
-from astropy.coordinates import solar_system_ephemeris
 solar_system_ephemeris.set('jpl')
 
 from mathjspy import MathJS
@@ -91,10 +89,10 @@ def get_sun_moon_Ec(t = Time("J2000")): # Ec=Ecliptic
 def get_angle_tithi_Ec(t= Time("J2000"),get_individual_angles=False):
     m,s = get_sun_moon_Ec(t=t)
     m_ra = m.lon.degree
-    m_dec = m.lat.degree
+    # m_dec = m.lat.degree
 
     s_ra = s.lon.degree
-    s_dec = s.lat.degree
+    # s_dec = s.lat.degree
 
     ms_angle = m_ra - s_ra # moon-sun angle. 
     ms_angle = ms_angle%360 
@@ -201,19 +199,24 @@ def solve_moon_time_Ec(lon,t,accuracy=0.01):
 def solve_body_time_Ec(lon,t,body,accuracy=0.01,find='previous'):
     # This function supercedes solve_moon_time_Ec
     tp = time_periods[body]
-    if type(lon)==Angle: lon = lon.degree
+    if type(lon) is Angle: 
+        lon = lon.degree
     def body_lon(t_):
-        if type(t_)==datetime: t_ = datetime_to_astropy(t_)
+        if type(t_) is datetime: 
+            t_ = datetime_to_astropy(t_)
         m,s = get_sun_moon_Ec(t_)
-        if body=='sun': return s.lon.degree
-        if body=='moon': return m.lon.degree
+        if body=='sun': 
+            return s.lon.degree
+        if body=='moon': 
+            return m.lon.degree
         if body=='moon_synodic':
             ang,_ = get_angle_tithi_Ec(t_)
             return ang
         return "body not found"
 
     c = body_lon(t)
-    if c==lon: return t
+    if c==lon: 
+        return t
 
     if find.lower()=='previous':
         approx_time = astropy_to_datetime(t) - timedelta(days=((c-lon)%360)/360*tp)
@@ -262,9 +265,11 @@ def solve_body_time_Ec(lon,t,body,accuracy=0.01,find='previous'):
 
 def get_ayanamsa(ayanamsa):
     # Ayanamsa lookup table
-    if type(ayanamsa) in [float,int]: return Angle(f"{ayanamsa}d")
-    elif type(ayanamsa)==Angle: return ayanamsa
-    elif type(ayanamsa)==str: 
+    if type(ayanamsa) in [float,int]:
+        return Angle(f"{ayanamsa}d")
+    elif type(ayanamsa) is Angle: 
+        return ayanamsa
+    elif type(ayanamsa) is str: 
         ayanamsa = ayanamsa.lower()
         if ayanamsa in ['lahiri','chitra','citra','spica','citrapaksa','chitrapaksa','citrapaksha','chitrapaksha']:
             return ayanamsa_citrapaksa
@@ -366,8 +371,8 @@ def find_new_moon_time_fsolve_Ec(t=Time("J2000"),accuracy=1):
     def ang_solver(t_):
       del_ = timedelta(minutes=t_)
       ang_,_ = get_angle_tithi_Ec(approx_date+del_)
-      return ang_a
+      return ang_
     
     t_solution = fsolve(ang_solver, 0)
     datetime_solution =  approx_date + timedelta(t_solution)
-    #return datetime_to_astropy(approx_time)
+    return datetime_to_astropy(approx_date)

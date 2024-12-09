@@ -11,11 +11,9 @@ Note: The code is almost complete. Usage example:
 
 ```python
 import JivaCalendar_FrontEnd as jcf
-# date = (y,m,d) and time in (h,m,s). location is (latitude,longitude), 
 # lat and lon are both being in degrees. North is positive and East is positive.
-cal = Pancanga(date=(2021,6,25),time=(14,0,0),location=(0,0),timezone='EST')
+cal = jcf.Pancanga(date=(2024,12,9),time=(14,0,0),latitude=51.5,longitude=00.00) # Todo: To support NON-UTC locations
 month_data = cal.get_pancanga_gregorian_month_Ec(verbose=True)
-# month_data is a list of dictionaries. I'll probably change it to a dataframe later.
 ```
 
 You can change the accuracy of the compute by ```accuracy``` parameter. This parameter is the error value in degrees that we tolerate. For example, ```accuracy=0.01``` would mean that the tithi starting time (and all other calculations) are computed with the locations of the moon coming within 0.01 degrees of the actual correct position.

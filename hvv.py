@@ -19,13 +19,15 @@ class HBV:
 	def HVV_test(self,accuracy=0.001): 
 		def create_string(tit_seq,vrata_day):
 			info_str_1 = f"tithi sequence is {tit_seq}. The sequence is "
-			info_str_2 = f"(day1_tithi,day2_dawn_tithi,day2_tithi,day3_tithi,day4_tithi,day5_tithi,day6_tithi, " 
+			info_str_2 = "(day1_tithi,day2_dawn_tithi,day2_tithi,day3_tithi,day4_tithi,day5_tithi,day6_tithi, " 
 			info_str_3 = f"day7_tithi,day8_tithi,day9_tithi). Out of these, the vrata date is day {vrata_day}"
 			return info_str_1 + info_str_2 + info_str_3
 		def get_day(vrata_day,i,which_day):
 			# if vrata is, for instance, 'day 2', then this method can return the day dict for that day or the next day
-			if which_day=='vrata': factor = 0
-			if which_day=='next': factor = 1
+			if which_day=='vrata': 
+				factor = 0
+			if which_day=='next': 
+				factor = 1
 			index = i+vrata_day-1+factor # This is the required day index.
 				# If index is within the month then great, else look for in next_month
 			if index<len(self.curr_month):
@@ -109,7 +111,7 @@ def vrata_scenario_check_1p2(l,vrata_day,scenario_num,tit_seq):
 	# Can't get rid of tit_seq because it has day_2 dawn info too.
 	# for definitions of vradat_day, scenario_num, tit_seq check the comments in the function vrata_scenario_check_1p1
 	# Notes: the list tit_seq = (day1,day2_dawn,day2,day3,day4), thus day2 onwards the index is the same as day number.
-	day_1,day_2,day_3,day_4,day_5,day_6,day_7,day_8,day_9 = l
+	day_1 = l
 	tithis = [d["tithi"] for d in l]
 	tit_seq_full = [t for t in tit_seq] + list(map(pt,tithis[4:])) # This is only for returning. Had to convert  
 													 # tit_seq to list since tuples can't be concatenated with list
@@ -148,12 +150,12 @@ def naksatra_yoga_check(list_of_days,vrata_day,accuracy=0.001,ayanamsa='citrapak
 			day_2 = list_of_days[i+1]
 			day_1_num = i # Since list_of_days=[day1,day2_dawn,day2,day3...], so day2 onwards the index is same as day number
 			break
-	if day_1 == None:
+	if day_1 is None:
 		# i.e. if not in sukla paksa
 		return None,vrata_day
 
 	sunrise1, sunset1 = day_1["sunrise"], day_1['sunset']
-	sunrise2, sunset2 = day_2["sunrise"], day_2['sunset']
+	sunrise2 = day_2["sunrise"]
 	ms_ang1,tit1,m_ang1,s_ang1 = jcf.get_angle_tithi_Ec(t=sunrise1)
 	nak_sunrise1 = jce.find_naksatra_Ec(m_ang1,ayanamsa=ayanamsa)[0]
 	nak_lons = jce.naksatra_lon_Ec(ayanamsa=ayanamsa,unit='degree')
@@ -266,34 +268,41 @@ def get_month_vrata(year,month,latitude=27.5650,longitude=77.6593,accuracy=0.001
 			return jcf.get_month_data(year=year+1,month=1,latitude=latitude,longitude=longitude,accuracy=accuracy,
 								ayanamsa=ayanamsa,dawn_duration=dawn_duration,verbose=False,section='first_third')
 
-	if verbose: print('loading data...',end='')
+	if verbose: 
+		print('loading data...',end='')
 	curr_month = jcf.get_month_data(year=year,month=month,latitude=latitude,longitude=longitude,
 							accuracy=accuracy,ayanamsa=ayanamsa,dawn_duration=dawn_duration,verbose=False)
 	prev_month = get_prev_month_data()
 	next_month = get_next_month_data()
-	if verbose: print("done.")
+	if verbose: 
+		print("done.")
 	h = HBV(curr_month=prev_month,next_month=curr_month,mata=mata,yama_mata=yama_mata,parana_method=parana_method)
 	vratas1 = h.HVV_test(accuracy=accuracy)
 	h = HBV(curr_month=curr_month,next_month=next_month,mata=mata,yama_mata=yama_mata,parana_method=parana_method)
 	vratas2 = h.HVV_test(accuracy=accuracy)
 	vratas = vratas1 + vratas2
 	filtered_vratas = [v for v in vratas if v["date"].month==month] #Because some vratas of prev and next month also show up
-	if timezone_offset is not None: filtered_vratas = convert_timezones(filtered_vratas,timezone_offset)
+	if timezone_offset is not None: 
+		filtered_vratas = convert_timezones(filtered_vratas,timezone_offset)
 	return filtered_vratas
 
 def get_year_vrata(year,latitude=27.5650,longitude=77.6593,accuracy=0.001,ayanamsa='citrapaksa',
 					dawn_duration=96,verbose=True,mata='tithi-mana',yama_mata='flexible',
 					parana_method='common_sense',timezone_offset=5.5,start_time=None,end_time=None):
-	if verbose: print("fetching data... ")
+	if verbose: 
+		print("fetching data... ")
 	year_data = jcf.get_year_data(year=year,latitude=27.5650,longitude=77.6593,accuracy=0.0001,
 		ayanamsa='citrapaksa', dawn_duration=96,verbose=verbose)
-	if verbose: print("fetching supplementary data...")
+	if verbose: 
+		print("fetching supplementary data...")
 	next_yr_1st_month = jcf.get_month_data(year=year+1,month=1,latitude=27.5650,longitude=77.6593,accuracy=0.0001,
 		ayanamsa='citrapaksa', dawn_duration=96,verbose=False,section='first_third')
 	prev_yr_last_month = jcf.get_month_data(year=year-1,month=12,latitude=27.5650,longitude=77.6593,accuracy=0.0001,
 		ayanamsa='citrapaksa', dawn_duration=96,verbose=False,section='third_third')
-	if verbose: print('data ready.')
-	if verbose: print('processing... ',end='')
+	if verbose: 
+		print('data ready.')
+	if verbose: 
+		print('processing... ',end='')
 	year_data = [prev_yr_last_month] + year_data + [next_yr_1st_month] 
 	all_vratas = []
 	for i in range(0,13):
@@ -302,8 +311,10 @@ def get_year_vrata(year,latitude=27.5650,longitude=77.6593,accuracy=0.001,ayanam
 		h = HBV(curr_month=curr_month,next_month=next_month,mata=mata,yama_mata=yama_mata,parana_method=parana_method)
 		vrata_instance = h.HVV_test(accuracy=accuracy)
 		all_vratas += vrata_instance
-	if timezone_offset is not None: all_vratas = convert_timezones(all_vratas,timezone_offset)
-	if verbose: print('done.')
+	if timezone_offset is not None: 
+		all_vratas = convert_timezones(all_vratas,timezone_offset)
+	if verbose: 
+		print('done.')
 	return all_vratas
 
 
@@ -316,14 +327,17 @@ def get_vrata(data,latitude=27.5650,longitude=77.6593,accuracy=0.001,ayanamsa='c
 					parana_method='common_sense',timezone_offset=5.5,start_time=None,end_time=None):
 	all_vratas = []
 	for i in range(0,len(data)-1):
-		if verbose: print("running month",i+1)
+		if verbose: 
+			print("running month",i+1)
 		curr_month = data[i]
 		next_month = data[i+1]
 		h = HBV(curr_month=curr_month,next_month=next_month,mata=mata,yama_mata=yama_mata,parana_method=parana_method)
 		vrata_instance = h.HVV_test(accuracy=accuracy)
 		all_vratas += vrata_instance
-	if timezone_offset is not None: all_vratas = convert_timezones(all_vratas,timezone_offset)
-	if verbose: print('done.')
+	if timezone_offset is not None: 
+		all_vratas = convert_timezones(all_vratas,timezone_offset)
+	if verbose: 
+		print('done.')
 	return all_vratas
 
 

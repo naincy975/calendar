@@ -1,5 +1,4 @@
 
-import JivaCalendar_Ecliptic as jce
 import JivaCalendar_FrontEnd as jcf
 from datetime import timezone as tmz
 from datetime import timedelta
@@ -7,7 +6,7 @@ from datetime import timedelta
 def main(data,hvv_date_list,accuracy=0.001,ayanamsa='citrapaksa',timezone_offset=None):
 	# hvv_date_list is a list of hari vasara vrata dates in the given time period. The hari vasara vrata 
 	# could be on an ekadasi day or dvadasi day, it doesn't matter just include all.
-	if type(data[0])==list: #flattening data if not already flat
+	if type(data[0]) is list: #flattening data if not already flat
 		data = [d for sublist in data for d in sublist]
 	sr = get_siva_ratri(data,accuracy=accuracy,timezone_offset=timezone_offset)
 	rn = get_rama_navami(data,hvv_date_list,accuracy=accuracy,timezone_offset=timezone_offset)
@@ -31,7 +30,7 @@ def get_siva_ratri(data,muhurta=48,accuracy=0.001,timezone_offset=None):
 
 		day_seq = [day,data[i+1],data[i+2]]
 		tit_seq = [d['tithi'] for d in day_seq]
-		masa = day['masa']
+		#  masa = day['masa']
 
 		# Missing cases: Couldn't find any. Checked against general vratas in General_Vrata.py
 		scenario = None
@@ -46,10 +45,14 @@ def get_siva_ratri(data,muhurta=48,accuracy=0.001,timezone_offset=None):
 				print("WARNING! Something's off. 28th is ksaya but 29th doesn't span even 2 muhurtas.")
 				print("Location of Error: Siva Ratri calculation scenario 2")
 			scenario = 2
-		if tit_seq == [28,29,29]: scenario = 3
-		if tit_seq == [27,29,29]: scenario = 4
-		if tit_seq == [28,30,30]: scenario = 5
-		if tit_seq == [28,30,1]: scenario = 6
+		if tit_seq == [28,29,29]: 
+			scenario = 3
+		if tit_seq == [27,29,29]: 
+			scenario = 4
+		if tit_seq == [28,30,30]: 
+			scenario = 5
+		if tit_seq == [28,30,1]: 
+			scenario = 6
 		if tit_seq == [28,29,1]: 
 			day2_sunrise = day_seq[1]['sunrise']
 			_,t_e = jcf.get_tithi_start_end_Ec(t=day2_sunrise,accuracy=accuracy,get_start=False,which_tithi='current')
@@ -108,7 +111,7 @@ def get_rama_navami(data,hvv_date_list,accuracy=0.001,timezone_offset=None):
 
 		day_seq = [day,data[i+1],data[i+2]]
 		tit_seq = [d['tithi'] for d in day_seq]
-		masa = day['masa']
+		# masa = day['masa']
 
 		# Missing cases: Couldn't find any missing. This seems quite complete. Can check the rest against this.
 		#
@@ -189,7 +192,7 @@ def get_krsna_janmastami(data,accuracy=0.001,timezone_offset=None,ayanamsa='citr
 
 		day_seq = [day,data[i+1],data[i+2],data[i+3]]
 		tit_seq = [d['tithi']-15 for d in day_seq[0:-1]] # converting so that we can call krsna paksa astami as 8th instead of 23rd
-		masa = day['masa']
+		# masa = day['masa']
 
 		scenario = None
 		# Missing cases: [7,8,10] 

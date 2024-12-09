@@ -22,19 +22,19 @@ def get_parana_times(vrata_day,next_day,scenario_num,nak_yoga_scenario,accuracy=
 		choice = 'jpn' 
 	if scenario_num in ['upv1','tpv1'] and nak_yoga_scenario is None:
 		choice = 'alt'
-	if scenario_num is 'vpv1' and nak_yoga_scenario is None:
+	if scenario_num == 'vpv1' and nak_yoga_scenario is None:
 		choice = 'vnj'
-	if scenario_num is 'vnj1' and nak_yoga_scenario in ['jyt1','vjy1','jyt2','vjy2']:
+	if scenario_num == 'vnj1' and nak_yoga_scenario in ['jyt1','vjy1','jyt2','vjy2']:
 		choice = 'jv' 
-	if scenario_num is 'vnj1' and nak_yoga_scenario in ['jya1','ppn1','jya2','ppn2']:
+	if scenario_num == 'vnj1' and nak_yoga_scenario in ['jya1','ppn1','jya2','ppn2']:
 		choice = 'jpn' 
-	if scenario_num is 'pvm1' and nak_yoga_scenario in ['jyt1','vjy1','jyt2','vjy2']:
+	if scenario_num == 'pvm1' and nak_yoga_scenario in ['jyt1','vjy1','jyt2','vjy2']:
 		choice = 'jv' 
-	if scenario_num is 'pvm1' and nak_yoga_scenario in ['jya1','ppn1','jya2','ppn2']:
+	if scenario_num == 'pvm1' and nak_yoga_scenario in ['jya1','ppn1','jya2','ppn2']:
 		choice = 'jpn' 
-	if scenario_num is 'vpv1' and nak_yoga_scenario in ['jyt1','vjy1','jyt2','vjy2']:
+	if scenario_num == 'vpv1' and nak_yoga_scenario in ['jyt1','vjy1','jyt2','vjy2']:
 		choice = 'jv' 
-	if scenario_num is 'vpv1' and nak_yoga_scenario in ['jya1','ppn1','jya2','ppn2']:
+	if scenario_num == 'vpv1' and nak_yoga_scenario in ['jya1','ppn1','jya2','ppn2']:
 		choice = 'jpn' 
 
 	if choice=='std':
@@ -47,7 +47,7 @@ def get_parana_times(vrata_day,next_day,scenario_num,nak_yoga_scenario,accuracy=
 		return jayanti_vijaya(vrata_day,next_day,accuracy=accuracy)
 	if choice=='jpn':
 		return jaya_papa_nasini(vrata_day,next_day,accuracy=accuracy)
-	if choice==None:
+	if choice is None:
 		raise ValueError(f"No pāraṇa scenario fits the vrata. Vrata Scenario is {scenario_num} and nakṣatra yoga {nak_yoga_scenario}")
 
 
@@ -157,10 +157,10 @@ def jayanti_vijaya(vrata_day,next_day,accuracy=0.01):
 	# Below we decide which Naksatra it is, Rohini or Sravana
 	if abs(nak_end_r-sunrise)>abs(nak_end_s-sunrise): 
 		nak_end = nak_end_s
-		nak_num = nak_num_s # which has the value 21
+		# nak_num = nak_num_s # which has the value 21
 	else:
 		nak_end = nak_end_r
-		nak_num = nak_num_r # which has the value 3
+		# nak_num = nak_num_r # which has the value 3
 
 	forenoon = sunrise + (sunset-sunrise)/3
 
@@ -177,20 +177,26 @@ def jayanti_vijaya(vrata_day,next_day,accuracy=0.01):
 	# Scenario 3
 	if nak_end>sunrise and ddsi_end<sunrise: 
 		parana_start = sunrise
-		if nak_end<forenoon: parana_end = nak_end
-		else: parana_end = forenoon
+		if nak_end<forenoon: 
+			parana_end = nak_end
+		else: 
+			parana_end = forenoon
 
 	# Scenario 4
 	if nak_end>ddsi_end and ddsi_end>sunrise: 
 		parana_start = sunrise
-		if ddsi_end<forenoon: parana_end = ddsi_end
-		else: parana_end = forenoon
+		if ddsi_end<forenoon: 
+			parana_end = ddsi_end
+		else: 
+			parana_end = forenoon
 
 	# Scenario 5
 	if nak_end>sunrise and nak_end<ddsi_end: 
 		parana_start = nak_end
-		if ddsi_end<forenoon: parana_end = ddsi_end
-		else: parana_end = forenoon
+		if ddsi_end<forenoon: 
+			parana_end = ddsi_end
+		else: 
+			parana_end = forenoon
 
 	return parana_start, parana_end
 
@@ -211,10 +217,10 @@ def jaya_papa_nasini(vrata_day,next_day,accuracy=0.01):
 	# Below we decide which Naksatra it is, Rohini or Sravana
 	if abs(nak_end_1-sunrise)>abs(nak_end_2-sunrise): 
 		nak_end = nak_end_2
-		nak_num = nak_num_2 # which has the value 21
+		# nak_num = nak_num_2 # which has the value 21
 	else:
 		nak_end = nak_end_1
-		nak_num = nak_num_1 # which has the value 3
+		# nak_num = nak_num_1 # which has the value 3
 
 	forenoon = sunrise + (sunset-sunrise)/3
 
@@ -231,20 +237,26 @@ def jaya_papa_nasini(vrata_day,next_day,accuracy=0.01):
 	# Scenario 3
 	if nak_end>sunrise and ddsi_end<sunrise: 
 		parana_start = nak_end
-		if nak_end<forenoon: parana_end = forenoon
-		else: parana_end = sunset
+		if nak_end<forenoon: 
+			parana_end = forenoon
+		else: 
+			parana_end = sunset
 
 	# Scenario 4
 	if nak_end>ddsi_end and ddsi_end>sunrise: 
 		parana_start = sunrise
-		if ddsi_end<forenoon: parana_end = ddsi_end
-		else: parana_end = forenoon
+		if ddsi_end<forenoon: 
+			parana_end = ddsi_end
+		else: 
+			parana_end = forenoon
 
 	# Scenario 5
 	if nak_end>sunrise and nak_end<ddsi_end: 
 		parana_start = nak_end
-		if ddsi_end<forenoon: parana_end = ddsi_end
-		else: parana_end = forenoon
+		if ddsi_end<forenoon: 
+			parana_end = ddsi_end
+		else: 
+			parana_end = forenoon
 
 	return parana_start, parana_end
 
