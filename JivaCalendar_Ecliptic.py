@@ -18,20 +18,17 @@ from astropy.time import Time
 from astropy.coordinates import solar_system_ephemeris
 from astropy.coordinates import get_body
 from astropy.coordinates import SkyCoord, Angle, GeocentricTrueEcliptic
-
+from mathjspy import MathJS
 from astral import LocationInfo
 from astral.sun import sun
 
 import numpy as np
+import Constants as constant
 from scipy.optimize import fsolve
 from datetime import timedelta, datetime, time
 
 solar_system_ephemeris.set("jpl")
-
-from mathjspy import MathJS
-
 mjs = MathJS()
-
 
 ## ----------UTILS------------
 def str_to_astropy(t):
@@ -49,67 +46,6 @@ def astropy_to_date(t):  # Converts only to date. Truncates
 
 def astropy_to_datetime(t):
     return t.to_datetime()
-
-
-Rasi_list = [
-    "mesa",
-    "vrsabha",
-    "mithuna",
-    "karka",
-    "simha",
-    "kanya",
-    "tula",
-    "vrscika",
-    "dhanu",
-    "makara",
-    "kumbha",
-    "mina",
-]
-
-Masa_list = [
-    "vaisakha",
-    "jyestha",
-    "asadha",
-    "sravana",
-    "bhadrapada",
-    "asvina",
-    "kartika",
-    "margasirsa",
-    "pausa",
-    "magha",
-    "phalguna",
-    "caitra",
-]
-
-Naksatra_list = [
-    "asvini",
-    "bharani",
-    "krttika",
-    "rohini",
-    "mrgasirsa",
-    "ardra",
-    "punarvasu",
-    "pusya",
-    "aslesa",
-    "magha",
-    "purvaphalguni",
-    "uttaraphalguni",
-    "hasta",
-    "citra",
-    "svati",
-    "visakha",
-    "anuradha",
-    "jyestha",
-    "mula",
-    "purvasada",
-    "uttarasada",
-    "sravana",
-    "dhanistha",
-    "satabhisa",
-    "purvabhadra",
-    "uttarabhadra",
-    "revati",
-]
 
 maasa_gaps = [28, 33, 34, 35]
 # UPDATE: I don't actually use this at all. My method is more fundamental, so is more reliable. Read the documentation for more info
@@ -426,7 +362,7 @@ def find_naksatra_Ec(lon, ayanamsa="citrapaksa"):
     ayanamsa = get_ayanamsa(ayanamsa)
     lon = (lon - ayanamsa) % Angle("360d")
     num = int(lon / Angle("13d20m"))
-    nak = Naksatra_list[num]
+    nak = constant.Naksatra_list[num]
     return num, nak
 
 
@@ -436,7 +372,7 @@ def find_rasi_Ec(lon, ayanamsa="citrapaksa"):
     ayanamsa = get_ayanamsa(ayanamsa)
     lon = (lon - ayanamsa) % Angle("360d")
     num = int(lon / Angle("30d"))
-    rasi = Rasi_list[num]
+    rasi = constant.Rasi_list[num]
     return num, rasi
 
 

@@ -39,9 +39,14 @@ def calculate_vrata(data, accuracy=0.001, ayanamsa="citrapaksa", timezone_offset
 
 
 def general_vrata(
-    data, tithi, masa, accuracy=0.001, ayanamsa="citrapaksa", timezone_offset=None
+    data,
+    tithi,
+    masa,
+    accuracy=0.001,
+    ayanamsa="citrapaksa",
+    timezone_offset=None,
 ):
-    #
+    
     def get_prev_tithi(tit_):
         return tit_ - 1 if tit_ > 1 else 30
 
@@ -123,3 +128,13 @@ def general_vrata(
             ]
 
     return all_vrata_days
+
+
+def get_ekadashis(data):
+    if type(data[0]) is list:
+        data = sorted(
+            [d for sub_list in data for d in sub_list],
+            key=lambda x: x["gregorian_date"],
+        )
+    days_sample = [day for day in data[30:40]]
+    return [general_vrata(data, day["tithi"], day["masa"]) for day in days_sample]

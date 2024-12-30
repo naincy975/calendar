@@ -1,4 +1,5 @@
 import JivaCalendar_Ecliptic as jce
+import Constants as constant
 from datetime import timedelta
 from datetime import datetime as dt
 from datetime import timezone as tmz
@@ -64,7 +65,7 @@ class Pancanga:
             ayanamsa=ayanamsa,
             which_nak="current",
         )
-        sun_naksatra = jce.Naksatra_list[sun_naksatra]
+        sun_naksatra = constant.Naksatra_list[sun_naksatra]
 
         all_data = []
         date_ = month_start
@@ -105,7 +106,7 @@ class Pancanga:
                 accuracy=accuracy,
                 ayanamsa=ayanamsa,
             )
-            moon_naksatra = jce.Naksatra_list[moon_naksatra]
+            moon_naksatra = constant.Naksatra_list[moon_naksatra]
             if sunrise_dt > sun_sankramana:
                 sun_sankramana, sun_naksatra = get_sankramana_time_Ec(
                     t=sunrise_dt,
@@ -115,7 +116,7 @@ class Pancanga:
                     ayanamsa=ayanamsa,
                     which_nak="current",
                 )
-                sun_naksatra = jce.Naksatra_list[sun_naksatra]
+                sun_naksatra = constant.Naksatra_list[sun_naksatra]
             sunrise = jce.astropy_to_datetime(sunrise)
             sunset = jce.astropy_to_datetime(sunset)
             print("moonrise", moonrise, type(moonrise))
@@ -176,7 +177,7 @@ class Pancanga:
             accuracy=accuracy,
             ayanamsa=ayanamsa,
             get_end=True,
-            system=system,
+            system="amanta",
         )
         # masa_end = masa_end.replace(tzinfo=pytz.UTC) # sunrise is timezone aware, so to compare I make this one aware too. Else error
         # Now made the above change in the fucntion get_masa_start_end_Ec()
@@ -188,7 +189,7 @@ class Pancanga:
             ayanamsa=ayanamsa,
             which_nak="current",
         )
-        sun_nak = jce.Naksatra_list[sun_nak_num]
+        sun_nak = constant.Naksatra_list[sun_nak_num]
         moon_sankramana, moon_nak_num = get_sankramana_time_Ec(
             t=month_start,
             body="moon",
@@ -197,7 +198,7 @@ class Pancanga:
             ayanamsa=ayanamsa,
             which_nak="current",
         )
-        moon_nak = jce.Naksatra_list[moon_nak_num]
+        moon_nak = constant.Naksatra_list[moon_nak_num]
 
         all_data = []
         date_ = month_start
@@ -220,7 +221,7 @@ class Pancanga:
                     accuracy=accuracy,
                     ayanamsa=ayanamsa,
                     get_end=True,
-                    system=system,
+                    system="amanta",
                 )
                 # masa_end = masa_end.replace(tzinfo=pytz.UTC) #Now made this change in the fucntion get_masa_start_end_Ec()
             if sunrise > sun_sankramana:
@@ -232,7 +233,7 @@ class Pancanga:
                     ayanamsa=ayanamsa,
                     which_nak="current",
                 )
-                sun_nak = jce.Naksatra_list[sun_nak_num]
+                sun_nak = constant.Naksatra_list[sun_nak_num]
             if sunrise > moon_sankramana:
                 moon_sankramana, moon_nak_num = get_sankramana_time_Ec(
                     t=sunrise,
@@ -242,7 +243,7 @@ class Pancanga:
                     ayanamsa=ayanamsa,
                     which_nak="current",
                 )
-                moon_nak = jce.Naksatra_list[moon_nak_num]
+                moon_nak = constant.Naksatra_list[moon_nak_num]
 
             tit, tit_end = get_tithi_start_end_Ec(
                 t=sunrise, accuracy=accuracy, get_start=False, which_tithi="current"
@@ -526,7 +527,7 @@ def get_masa_start_end_Ec(
     # This is new moon at the start only for amanta. For purnimanta this is the nearest new moon
     m, s = jce.get_sun_moon_Ec(time_s)
     num, _ = jce.find_rasi_Ec(s.lon, ayanamsa=ayanamsa)
-    masa = jce.Masa_list[num]
+    masa = constant.Masa_list[num]
     if system == "purnimanta":  # for amanta the extisting time_s is the same.
         time_s = jce.solve_body_time_Ec(
             lon=b_lon, t=t, body="moon_synodic", accuracy=accuracy, find="previous"
@@ -571,7 +572,7 @@ def get_samvat(date_, masa):
     year, month = date_.year, date_.month
     first_masa = "caitra"
     masa_list = [
-        jce.Masa_list[(jce.Masa_list.index(first_masa) + i) % 12] for i in range(0, 12)
+        constant.Masa_list[(constant.Masa_list.index(first_masa) + i) % 12] for i in range(0, 12)
     ]
     # first_half = masa_list[0:7]
     second_half = masa_list[8:]
@@ -604,7 +605,7 @@ def get_sankramana_time_Ec(
     # Else which_nak is an int from 0 to 26, for the 27 naksatras.
     # if which_nak is not None, then start_end specifies if we want the start or end of the given naksatra
     if which_nak in [None, "current"]:
-        total_count = len(jce.Naksatra_list)
+        total_count = len(constant.Naksatra_list)
 
         def body_lon(t_):
             m, s = jce.get_sun_moon_Ec(t_)
@@ -637,7 +638,7 @@ def get_sankramana_time_Ec(
 
     else:  # Guves the starting/ending time of the naksatra given by which_nak
         if type(which_nak) is str:
-            which_nak = jce.Naksatra_list.index(which_nak)
+            which_nak = constant.Naksatra_list.index(which_nak)
         t = jce.datetime_to_astropy(t)
         if start_end == "start":
             time_ = jce.solve_body_time_Ec(
