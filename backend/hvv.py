@@ -12,7 +12,7 @@ class HBV:
         next_month,
         mata="tithi-mana",
         yama_mata="flexible",
-        ayanamsa="citrapaksa",
+        ayanamsa=Constants.ayanamsa,
         parana_method="common_sense",
     ):
         self.curr_month = curr_month
@@ -177,7 +177,7 @@ def vrata_scenario_check_1p2(l, vrata_day, scenario_num, tit_seq):
         )
         print("This could be harmless, because a tithi can be missing.")
         print("Warning info:")
-        print("		day_1 date:", day_1["gregorian_date"])
+        print("		day_1 date:", day_1[0])
         print("		tithi sequence:", tithis)
     if len(paksa_end_tithis) in [0, 1]:
         return vrata_day, scenario_num, tit_seq_full
@@ -203,7 +203,7 @@ def naksatra_yoga_check(
     list_of_days,
     vrata_day,
     accuracy=0.001,
-    ayanamsa="citrapaksa",
+    ayanamsa=Constants.ayanamsa,
     mata="tithi-mana",
     yama_mata="flexible",
 ):
@@ -338,7 +338,7 @@ def get_month_vrata(
     latitude=27.5650,
     longitude=77.6593,
     accuracy=0.001,
-    ayanamsa="citrapaksa",
+    ayanamsa=Constants.ayanamsa,
     dawn_duration=96,
     verbose=True,
     mata="tithi-mana",

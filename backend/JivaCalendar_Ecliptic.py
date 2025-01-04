@@ -23,7 +23,7 @@ from astral import LocationInfo
 from astral.sun import sun
 
 import numpy as np
-import Constants as constant
+import Constants
 from scipy.optimize import fsolve
 from datetime import timedelta, datetime, time
 
@@ -328,7 +328,7 @@ def get_ayanamsa(ayanamsa):
         )
 
 
-def naksatra_lon_Ec(ayanamsa="citrapaksa", unit="Angle"):
+def naksatra_lon_Ec(ayanamsa=Constants.ayanamsa, unit="Angle"):
     # List of Naksatra longitudes (in the ecliptic, so equally spaced). With J2000 equinox as coordinate axis.
     # Ayanamsa is the starting point of the Naksatras
     if unit not in ["degree", "degrees", "Angle"]:
@@ -341,7 +341,7 @@ def naksatra_lon_Ec(ayanamsa="citrapaksa", unit="Angle"):
     return naksatra_lon_list
 
 
-def rasi_lon_Ec(ayanamsa="citrapaksa", unit="Angle"):
+def rasi_lon_Ec(ayanamsa=Constants.ayanamsa, unit="Angle"):
     # List of Rāśi longitudes (in the ecliptic, so equally spaced). With J2000 equinox as coordinate axis, and geocentric origin.
     # Ayanamsa is the starting point of the Naksatras
     if unit not in ["degree", "degrees", "Angle"]:
@@ -356,23 +356,23 @@ def rasi_lon_Ec(ayanamsa="citrapaksa", unit="Angle"):
 
 # Note that the below functions (to find Naksatra for a given longitude) don't use the above functions to generate a list of
 # Naksatra longitudes. Just because there is no need to, so just to save time and compute.
-def find_naksatra_Ec(lon, ayanamsa="citrapaksa"):
+def find_naksatra_Ec(lon, ayanamsa=Constants.ayanamsa):
     if type(lon) in [int, float, np.float64, np.float32]:
         lon = Angle(f"{lon}d")
     ayanamsa = get_ayanamsa(ayanamsa)
     lon = (lon - ayanamsa) % Angle("360d")
     num = int(lon / Angle("13d20m"))
-    nak = constant.Naksatra_list[num]
+    nak = Constants.Naksatra_list[num]
     return num, nak
 
 
-def find_rasi_Ec(lon, ayanamsa="citrapaksa"):
+def find_rasi_Ec(lon, ayanamsa=Constants.ayanamsa):
     if type(lon) in [int, float, np.float64, np.float32]:
         lon = Angle(f"{lon}d")
     ayanamsa = get_ayanamsa(ayanamsa)
     lon = (lon - ayanamsa) % Angle("360d")
     num = int(lon / Angle("30d"))
-    rasi = constant.Rasi_list[num]
+    rasi = Constants.Rasi_list[num]
     return num, rasi
 
 

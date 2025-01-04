@@ -54,14 +54,14 @@ export const MonthEkadashi: React.FC<MonthEkadashiProps> = ({year, month, latitu
         </thead>
         <tbody>
         {vrataData.length > 0 ? (
-            vrataData.map((entry, index) => (
+            vrataData.map((item, index) => (
               <tr key={index}>
-                <td>{entry.date}</td>
-                <td>{entry.type}</td>
-                <td>{entry["naksatra yoga"]}</td>
-                <td>{entry.info}</td>
-                <td>{entry.parana[0]}</td>
-                <td>{entry.parana[1]}</td>
+                <td>{item.date}</td>
+                <td>{item.type}</td>
+                <td>{item["naksatra yoga"]}</td>
+                <td>{item.info}</td>
+                <td>{new Date(item.parana[0]).toLocaleString()}</td>
+                <td>{new Date(item.parana[1]).toLocaleString()}</td>
               </tr>
             ))
           ) : ""}

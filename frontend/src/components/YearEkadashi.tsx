@@ -8,19 +8,14 @@ interface YearEkadashiProps {
 }
 
 export const YearEkadashi: React.FC<YearEkadashiProps> = ({year, latitude, longitude}) => {
-  type VrataDataEntry = {
-    gregorian_date: string;
-    tithi: string;
-    sunrise: string;
-    sunset: string;
-    masa: string;
-    system: string;
-    adhika_masa: boolean;
-    masa_start: string;
-    masa_end: string;
-    vikram_samvat: boolean;
+  type VrataDataitem = {
+    date: string;
+    type: string;
+    "naksatra yoga": string;
+    info: string;
+    parana: string[];
   };
-  const [vrataData, setVrataData] = useState<VrataDataEntry[]>([]);
+  const [vrataData, setVrataData] = useState<VrataDataitem[]>([]);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -32,7 +27,7 @@ export const YearEkadashi: React.FC<YearEkadashiProps> = ({year, latitude, longi
         if (axios.isAxiosError(err)) {
           setError(err.message); 
         } else if (err instanceof Error) {
-          setError(err.message);
+          setError(err.message); 
         } else {
           setError("An unknown error occurred."); 
         }
@@ -49,31 +44,23 @@ export const YearEkadashi: React.FC<YearEkadashiProps> = ({year, latitude, longi
         <thead>
           <tr>
             <th>Date</th>
-            <th>Tithi</th>
-            <th>Sunrise</th>
-            <th>Sunset</th>
-            <th>Month</th>
-            <th>System</th>
-            <th>Adhika Masa</th>
-            <th>Month Start</th>
-            <th>Month End</th>
-            <th>Samvat</th>
+            <th>Type</th>
+            <th>Naksatra Yoga</th>
+            <th>info</th>
+            <th>Parana Start</th>
+            <th>Parana End</th>
           </tr>
         </thead>
         <tbody>
         {vrataData.length > 0 ? (
-            vrataData.map((entry, index) => (
+            vrataData.map((item, index) => (
               <tr key={index}>
-                <td>{entry.gregorian_date}</td>
-                <td>{entry.tithi}</td>
-                <td>{entry.sunrise}</td>
-                <td>{entry.sunset}</td>
-                <td>{entry.masa}</td>
-                <td>{entry.system}</td>
-                <td>{entry.adhika_masa ? "Yes" : "No"}</td>
-                <td>{entry.masa_start}</td>
-                <td>{entry.masa_end}</td>
-                <td>{entry.vikram_samvat}</td>
+                <td>{item.date}</td>
+                <td>{item.type}</td>
+                <td>{item["naksatra yoga"]}</td>
+                <td>{item.info}</td>
+                <td>{new Date(item.parana[0]).toLocaleString()}</td>
+                <td>{new Date(item.parana[1]).toLocaleString()}</td>
               </tr>
             ))
           ) : ""}
