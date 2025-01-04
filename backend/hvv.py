@@ -3,7 +3,7 @@ import JivaCalendar_Ecliptic as jce
 import parana as pn
 from datetime import timedelta
 from datetime import timezone as tmz
-
+import Constants
 
 class HBV:
     def __init__(
@@ -445,7 +445,7 @@ def get_year_vrata(
     latitude=27.5650,
     longitude=77.6593,
     accuracy=0.001,
-    ayanamsa="citrapaksa",
+    ayanamsa=Constants.ayanamsa,
     dawn_duration=96,
     verbose=True,
     mata="tithi-mana",
@@ -462,7 +462,7 @@ def get_year_vrata(
         latitude=27.5650,
         longitude=77.6593,
         accuracy=0.0001,
-        ayanamsa="citrapaksa",
+        ayanamsa=Constants.ayanamsa,
         dawn_duration=96,
         verbose=verbose,
     )
@@ -474,7 +474,7 @@ def get_year_vrata(
         latitude=27.5650,
         longitude=77.6593,
         accuracy=0.0001,
-        ayanamsa="citrapaksa",
+        ayanamsa=Constants.ayanamsa,
         dawn_duration=96,
         verbose=False,
         section="first_third",
@@ -485,7 +485,7 @@ def get_year_vrata(
         latitude=27.5650,
         longitude=77.6593,
         accuracy=0.0001,
-        ayanamsa="citrapaksa",
+        ayanamsa=Constants.ayanamsa,
         dawn_duration=96,
         verbose=False,
         section="third_third",
@@ -524,7 +524,7 @@ def get_vrata(
     latitude=27.5650,
     longitude=77.6593,
     accuracy=0.001,
-    ayanamsa="citrapaksa",
+    ayanamsa=Constants.ayanamsa,
     dawn_duration=96,
     verbose=True,
     mata="tithi-mana",

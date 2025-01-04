@@ -1,10 +1,11 @@
 import JivaCalendar_FrontEnd as jcf
+import Constants
 from datetime import timezone as tmz
 from datetime import timedelta
 
 
 def main(
-    data, hvv_date_list, accuracy=0.001, ayanamsa="citrapaksa", timezone_offset=None
+    data, hvv_date_list, accuracy=0.001, ayanamsa=Constants.ayanamsa, timezone_offset=None
 ):
     # hvv_date_list is a list of hari vasara vrata dates in the given time period. The hari vasara vrata
     # could be on an ekadasi day or dvadasi day, it doesn't matter just include all.
@@ -219,7 +220,7 @@ def get_rama_navami(data, hvv_date_list, accuracy=0.001, timezone_offset=None):
 
 
 def get_krsna_janmastami(
-    data, accuracy=0.001, timezone_offset=None, ayanamsa="citrapaksa"
+    data, accuracy=0.001, timezone_offset=None, ayanamsa=Constants.ayanamsa
 ):
     # Note that here we're cchecking only until len(data)-4
 

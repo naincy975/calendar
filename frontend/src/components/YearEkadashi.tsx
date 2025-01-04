@@ -1,14 +1,13 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-interface MonthPanjikaProps {
+interface YearEkadashiProps {
   year: number; 
-  month: number; 
   longitude: number;
   latitude: number;
 }
 
-export const MonthPanjika: React.FC<MonthPanjikaProps> = ({year, month, latitude, longitude}) => {
+export const YearEkadashi: React.FC<YearEkadashiProps> = ({year, latitude, longitude}) => {
   type VrataDataEntry = {
     gregorian_date: string;
     tithi: string;
@@ -27,15 +26,15 @@ export const MonthPanjika: React.FC<MonthPanjikaProps> = ({year, month, latitude
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:8000/vrata?year=${year}&month=${month}&latitude=${latitude}&longitude=${longitude}`);
-        setVrataData(response.data); // Adjust based on the backend response structure
+        const response = await axios.get(`http://localhost:8000/year_vrata?year=${year}&latitude=${latitude}&longitude=${longitude}`);
+        setVrataData(response.data); 
       } catch (err) {
         if (axios.isAxiosError(err)) {
-          setError(err.message); // Error from Axios
+          setError(err.message); 
         } else if (err instanceof Error) {
-          setError(err.message); // Generic JavaScript error
+          setError(err.message);
         } else {
-          setError("An unknown error occurred."); // Fallback
+          setError("An unknown error occurred."); 
         }
       }
     };
@@ -45,7 +44,7 @@ export const MonthPanjika: React.FC<MonthPanjikaProps> = ({year, month, latitude
   if (error) return <p>{error}</p>;
   return (
     <div className="container mt-5">
-      <h2 className="text-center">Month Panjika</h2>
+      <h2 className="text-center">Year Ekadashi</h2>
       <table className="table table-striped table-bordered">
         <thead>
           <tr>

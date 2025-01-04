@@ -1,5 +1,5 @@
 import JivaCalendar_Ecliptic as jce
-import Constants as constant
+import Constants
 from datetime import timedelta
 from datetime import datetime as dt
 from datetime import timezone as tmz
@@ -23,7 +23,7 @@ class Pancanga:
     def get_pancanga_gregorian_month_Ec(
         self,
         accuracy=0.0001,
-        ayanamsa="citrapaksa",
+        ayanamsa=Constants.ayanamsa,
         verbose=True,
         update_attributes=True,
         sun_horizon=-0.8333,
@@ -65,7 +65,7 @@ class Pancanga:
             ayanamsa=ayanamsa,
             which_nak="current",
         )
-        sun_naksatra = constant.Naksatra_list[sun_naksatra]
+        sun_naksatra = Constants.Naksatra_list[sun_naksatra]
 
         all_data = []
         date_ = month_start
@@ -106,7 +106,7 @@ class Pancanga:
                 accuracy=accuracy,
                 ayanamsa=ayanamsa,
             )
-            moon_naksatra = constant.Naksatra_list[moon_naksatra]
+            moon_naksatra = Constants.Naksatra_list[moon_naksatra]
             if sunrise_dt > sun_sankramana:
                 sun_sankramana, sun_naksatra = get_sankramana_time_Ec(
                     t=sunrise_dt,
@@ -116,7 +116,7 @@ class Pancanga:
                     ayanamsa=ayanamsa,
                     which_nak="current",
                 )
-                sun_naksatra = constant.Naksatra_list[sun_naksatra]
+                sun_naksatra = Constants.Naksatra_list[sun_naksatra]
             sunrise = jce.astropy_to_datetime(sunrise)
             sunset = jce.astropy_to_datetime(sunset)
             print("moonrise", moonrise, type(moonrise))
@@ -155,7 +155,7 @@ class Pancanga:
         return all_data
 
     def get_pancanga_gregorian_month_full_Ec(
-        self, accuracy=0.0001, ayanamsa="citrapaksa", verbose=True, dawn_duration=96
+        self, accuracy=0.0001, ayanamsa=Constants.ayanamsa, verbose=True, dawn_duration=96
     ):
         # dawn_duration is in minutes
         # for the astral.sun module, default sun_horizon is 0.266 degrees
@@ -177,7 +177,7 @@ class Pancanga:
             accuracy=accuracy,
             ayanamsa=ayanamsa,
             get_end=True,
-            system="amanta",
+            system=Constants.system[0],
         )
         # masa_end = masa_end.replace(tzinfo=pytz.UTC) # sunrise is timezone aware, so to compare I make this one aware too. Else error
         # Now made the above change in the fucntion get_masa_start_end_Ec()
@@ -189,7 +189,7 @@ class Pancanga:
             ayanamsa=ayanamsa,
             which_nak="current",
         )
-        sun_nak = constant.Naksatra_list[sun_nak_num]
+        sun_nak = Constants.Naksatra_list[sun_nak_num]
         moon_sankramana, moon_nak_num = get_sankramana_time_Ec(
             t=month_start,
             body="moon",
@@ -198,7 +198,7 @@ class Pancanga:
             ayanamsa=ayanamsa,
             which_nak="current",
         )
-        moon_nak = constant.Naksatra_list[moon_nak_num]
+        moon_nak = Constants.Naksatra_list[moon_nak_num]
 
         all_data = []
         date_ = month_start
@@ -221,7 +221,7 @@ class Pancanga:
                     accuracy=accuracy,
                     ayanamsa=ayanamsa,
                     get_end=True,
-                    system="amanta",
+                    system=Constants.system[0],
                 )
                 # masa_end = masa_end.replace(tzinfo=pytz.UTC) #Now made this change in the fucntion get_masa_start_end_Ec()
             if sunrise > sun_sankramana:
@@ -233,7 +233,7 @@ class Pancanga:
                     ayanamsa=ayanamsa,
                     which_nak="current",
                 )
-                sun_nak = constant.Naksatra_list[sun_nak_num]
+                sun_nak = Constants.Naksatra_list[sun_nak_num]
             if sunrise > moon_sankramana:
                 moon_sankramana, moon_nak_num = get_sankramana_time_Ec(
                     t=sunrise,
@@ -243,7 +243,7 @@ class Pancanga:
                     ayanamsa=ayanamsa,
                     which_nak="current",
                 )
-                moon_nak = constant.Naksatra_list[moon_nak_num]
+                moon_nak = Constants.Naksatra_list[moon_nak_num]
 
             tit, tit_end = get_tithi_start_end_Ec(
                 t=sunrise, accuracy=accuracy, get_start=False, which_tithi="current"
@@ -274,12 +274,12 @@ class Pancanga:
     def get_pancanga_gregorian_month_lite_Ec(
         self,
         accuracy=0.001,
-        ayanamsa="citrapaksa",
+        ayanamsa=Constants.ayanamsa,
         verbose=True,
         dawn_duration=96,
         section="full",
         prev_masa=None,
-        system="amanta",
+        system=Constants.system[0],
     ):
         # dawn_duration is in minutes
         # for the astral.sun module, default sun_horizon is 0.266 degrees
@@ -416,10 +416,10 @@ class Pancanga:
     def get_pancanga_day_Ec(
         self,
         accuracy=0.0001,
-        ayanamsa="citrapaksa",
+        ayanamsa=Constants.ayanamsa,
         verbose=True,
         dawn_duration=96,
-        system="amanta",
+        system=Constants.system[0],
     ):
         sun_data = jce.get_sunrise_sunset_astral(
             location=(self.latitude, self.longitude), date_=self.datetime.date()
@@ -507,18 +507,18 @@ def get_tithi_start_end_Ec(
 def get_masa_start_end_Ec(
     t=dt(2021, 6, 2, 10, 0, 0),
     accuracy=0.001,
-    ayanamsa="citrapaksa",
+    ayanamsa=Constants.ayanamsa,
     get_end=True,
-    system="amanta",
+    system=Constants.system[0],
 ):  # Tithi info for a time, time in UTC datetime. return in UTC datetime
-    if system not in ["amanta", "purnimanta"]:
+    if system not in Constants.system:
         raise ValueError("system should be in 'amanta','purnimanta'")
     # dt_ = t # retaining a datetime copy for future use
     t = jce.datetime_to_astropy(t)
-    if system == "purnimanta":
+    if system == Constants.system[1]:
         find = "nearest"
         b_lon = 180
-    if system == "amanta":
+    if system == Constants.system[0]:
         find = "previous"
         b_lon = 0
     time_s = jce.solve_body_time_Ec(
@@ -527,8 +527,8 @@ def get_masa_start_end_Ec(
     # This is new moon at the start only for amanta. For purnimanta this is the nearest new moon
     m, s = jce.get_sun_moon_Ec(time_s)
     num, _ = jce.find_rasi_Ec(s.lon, ayanamsa=ayanamsa)
-    masa = constant.Masa_list[num]
-    if system == "purnimanta":  # for amanta the extisting time_s is the same.
+    masa = Constants.Masa_list[num]
+    if system == Constants.system[1]:  # for amanta the extisting time_s is the same.
         time_s = jce.solve_body_time_Ec(
             lon=b_lon, t=t, body="moon_synodic", accuracy=accuracy, find="previous"
         )
@@ -548,8 +548,8 @@ def check_adhika(
     t_start,
     prev_masa=None,
     accuracy=0.001,
-    ayanamsa="citrapaksa",
-    system="amanta",
+    ayanamsa=Constants.ayanamsa,
+    system=Constants.system[0],
 ):
     # t_start is the start time of the current month
     if prev_masa is None:
@@ -572,7 +572,7 @@ def get_samvat(date_, masa):
     year, month = date_.year, date_.month
     first_masa = "caitra"
     masa_list = [
-        constant.Masa_list[(constant.Masa_list.index(first_masa) + i) % 12] for i in range(0, 12)
+        Constants.Masa_list[(Constants.Masa_list.index(first_masa) + i) % 12] for i in range(0, 12)
     ]
     # first_half = masa_list[0:7]
     second_half = masa_list[8:]
@@ -581,7 +581,7 @@ def get_samvat(date_, masa):
     return {"vikram_samvat": vikram_samvat}
 
 
-def get_naksatra(t=dt(2021, 6, 2, 10, 0, 0), body="moon", ayanamsa="citrapaksa"):
+def get_naksatra(t=dt(2021, 6, 2, 10, 0, 0), body="moon", ayanamsa=Constants.ayanamsa):
     t = jce.datetime_to_astropy(t)
     m, s = jce.get_sun_moon_Ec(t)
     if body == "sun":
@@ -595,7 +595,7 @@ def get_sankramana_time_Ec(
     t=dt(2021, 6, 2, 10, 0, 0),
     body="moon",
     accuracy=0.01,
-    ayanamsa="citrapaksa",
+    ayanamsa=Constants.ayanamsa,
     find="previous",
     which_nak=None,
     start_end="end",
@@ -605,7 +605,7 @@ def get_sankramana_time_Ec(
     # Else which_nak is an int from 0 to 26, for the 27 naksatras.
     # if which_nak is not None, then start_end specifies if we want the start or end of the given naksatra
     if which_nak in [None, "current"]:
-        total_count = len(constant.Naksatra_list)
+        total_count = len(Constants.Naksatra_list)
 
         def body_lon(t_):
             m, s = jce.get_sun_moon_Ec(t_)
@@ -616,7 +616,7 @@ def get_sankramana_time_Ec(
             return "body not found"
 
         t = jce.datetime_to_astropy(t)
-        nak_lon = jce.naksatra_lon_Ec(ayanamsa="citrapaksa")
+        nak_lon = jce.naksatra_lon_Ec(ayanamsa=Constants.ayanamsa)
         num_now, _ = jce.find_naksatra_Ec(
             body_lon(t)
         )  # The naksatra the the body is in right now
@@ -638,7 +638,7 @@ def get_sankramana_time_Ec(
 
     else:  # Guves the starting/ending time of the naksatra given by which_nak
         if type(which_nak) is str:
-            which_nak = constant.Naksatra_list.index(which_nak)
+            which_nak = Constants.Naksatra_list.index(which_nak)
         t = jce.datetime_to_astropy(t)
         if start_end == "start":
             time_ = jce.solve_body_time_Ec(
@@ -702,9 +702,9 @@ def get_year_data(
     latitude=27.5650,
     longitude=77.6593,
     accuracy=0.001,
-    ayanamsa="citrapaksa",
+    ayanamsa=Constants.ayanamsa,
     dawn_duration=96,
-    system="amanta",
+    system=Constants.system[0],
     verbose=True,
 ):
     # default location is Vrindavan
@@ -731,13 +731,13 @@ def get_month_data(
     latitude=27.5650,
     longitude=77.6593,
     accuracy=0.001,
-    ayanamsa="citrapaksa",
+    ayanamsa=Constants.ayanamsa,
     dawn_duration=96,
     verbose=True,
     comprehensive=False,
     timezone_offset=None,
     section="full",
-    system="amanta",
+    system=Constants.system[0],
 ):
     # default location is Vrindavan
     date_ = (year, month, 15)  # middle of the month
@@ -772,9 +772,9 @@ def get_day_data(
     latitude=27.5650,
     longitude=77.6593,
     accuracy=0.001,
-    ayanamsa="citrapaksa",
+    ayanamsa=Constants.ayanamsa,
     dawn_duration=96,
-    system="amanta",
+    system=Constants.system[0],
     verbose=True,
 ):
     p = Pancanga(date=(year, month, day), latitude=latitude, longitude=longitude)
@@ -797,9 +797,9 @@ def get_data(
     latitude=27.5650,
     longitude=77.6593,
     accuracy=0.001,
-    ayanamsa="citrapaksa",
+    ayanamsa=Constants.ayanamsa,
     dawn_duration=96,
-    system="amanta",
+    system=Constants.system[0],
     verbose=True,
 ):
     year_data = []
