@@ -19,6 +19,8 @@ export const MonthPanjika: React.FC<MonthPanjikaProps> = ({year, month, latitude
     adhika_masa: boolean;
     masa_start: string;
     masa_end: string;
+    tithi_start: string;
+    tithi_end: string;
     moon_naksatra: string[]
     vikram_samvat: boolean;
   };
@@ -45,8 +47,8 @@ export const MonthPanjika: React.FC<MonthPanjikaProps> = ({year, month, latitude
   }, []);
   if (error) return <p>{error}</p>;
   return (
-    <div className="container mt-5">
-      <h2 className="text-center bg-red">Month Panjika</h2>
+    <div className="mx-10 text-white">
+      <h2 className="text-center">Month Panjika</h2>
       <table className="table table-striped table-bordered">
         <thead>
           <tr>
@@ -59,6 +61,8 @@ export const MonthPanjika: React.FC<MonthPanjikaProps> = ({year, month, latitude
             <th>Adhika Masa</th>
             <th>Month Start</th>
             <th>Month End</th>
+            <th>Tithi Start</th>
+            <th>Tithi End</th>
             <th>Naksatra</th>
             <th>Samvat</th>
           </tr>
@@ -76,6 +80,8 @@ export const MonthPanjika: React.FC<MonthPanjikaProps> = ({year, month, latitude
                 <td>{item.adhika_masa ? "Yes" : "No"}</td>
                 <td>{new Date(item.masa_start).toLocaleString()}</td>
                 <td>{new Date(item.masa_end).toLocaleString()}</td>
+                <td>{new Date(item.tithi_start).toLocaleString()}</td>
+                <td>{new Date(item.tithi_end).toLocaleString()}</td>
                 <td>{item.moon_naksatra[1]}</td>
                 <td>{item.vikram_samvat}</td>
               </tr>

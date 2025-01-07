@@ -36,7 +36,7 @@ export const SpecialVrata = () => {
   }, []);
   if (error) return <p>{error}</p>;
   return (
-    <div className="container mt-5">
+    <div className="mx-10 text-white">
       <h2 className="text-center">Special Vratas</h2>
       <table className="table table-striped table-bordered">
         <thead>

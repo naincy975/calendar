@@ -38,7 +38,7 @@ export const YearEkadashi: React.FC<YearEkadashiProps> = ({year, latitude, longi
   }, []);
   if (error) return <p>{error}</p>;
   return (
-    <div className="container mt-5">
+    <div className="mx-10 text-white">
       <h2 className="text-center">Year Ekadashi</h2>
       <table className="table table-striped table-bordered">
         <thead>

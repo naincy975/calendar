@@ -387,6 +387,9 @@ class Pancanga:
             m_nak = jce.find_naksatra_Ec(m_ang, ayanamsa=ayanamsa)
             s_nak = jce.find_naksatra_Ec(s_ang, ayanamsa=ayanamsa)
             samvat = get_samvat(date_, masa)
+            tit, tithi_s, tithi_e = get_tithi_start_end_Ec(
+            t=sunrise, accuracy=accuracy, get_start=True, which_tithi="cunt"
+        )
 
             dict_ = {
                 "gregorian_date": date_,
@@ -400,6 +403,8 @@ class Pancanga:
                 "tithi": tithi,
                 "sun_naksatra": s_nak,
                 "moon_naksatra": m_nak,
+                "tithi_start": tithi_s,
+                "tithi_end": tithi_e
             }
             dict_.update(samvat)
             all_data += [dict_]
