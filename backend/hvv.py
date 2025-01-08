@@ -358,7 +358,7 @@ def get_month_vrata(
                 ayanamsa=ayanamsa,
                 dawn_duration=dawn_duration,
                 verbose=False,
-                section="third_third",
+                section=Constants.section[5],
             )
         else:
             return jcf.get_month_data(
@@ -370,7 +370,7 @@ def get_month_vrata(
                 ayanamsa=ayanamsa,
                 dawn_duration=dawn_duration,
                 verbose=False,
-                section="third_third",
+                section=Constants.section[5],
             )
 
     def get_next_month_data():
@@ -384,7 +384,7 @@ def get_month_vrata(
                 ayanamsa=ayanamsa,
                 dawn_duration=dawn_duration,
                 verbose=False,
-                section="first_third",
+                section=Constants.section[3],
             )
         else:
             return jcf.get_month_data(
@@ -396,7 +396,7 @@ def get_month_vrata(
                 ayanamsa=ayanamsa,
                 dawn_duration=dawn_duration,
                 verbose=False,
-                section="first_third",
+                section=Constants.section[3],
             )
 
     if verbose:
@@ -477,7 +477,7 @@ def get_year_vrata(
         ayanamsa=Constants.ayanamsa,
         dawn_duration=96,
         verbose=False,
-        section="first_third",
+        section=Constants.section[3],
     )
     prev_yr_last_month = jcf.get_month_data(
         year=year - 1,
@@ -488,7 +488,7 @@ def get_year_vrata(
         ayanamsa=Constants.ayanamsa,
         dawn_duration=96,
         verbose=False,
-        section="third_third",
+        section=Constants.section[5],
     )
     if verbose:
         print("data ready.")

@@ -4,11 +4,12 @@ import axios from "axios";
 interface MonthPanjikaProps {
   year: number; 
   month: number; 
-  longitude: number;
   latitude: number;
+  longitude: number;
+  system: string;
 }
 
-export const MonthPanjika: React.FC<MonthPanjikaProps> = ({year, month, latitude, longitude}) => {
+export const MonthPanjika: React.FC<MonthPanjikaProps> = ({year, month, latitude, longitude, system}) => {
   type VrataDataEntry = {
     gregorian_date: string;
     tithi: string;
@@ -17,8 +18,8 @@ export const MonthPanjika: React.FC<MonthPanjikaProps> = ({year, month, latitude
     masa: string;
     system: string;
     adhika_masa: boolean;
-    masa_start: string;
-    masa_end: string;
+    // masa_start: string;
+    // masa_end: string;
     tithi_start: string;
     tithi_end: string;
     moon_naksatra: string[]
@@ -30,7 +31,7 @@ export const MonthPanjika: React.FC<MonthPanjikaProps> = ({year, month, latitude
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:8000/month_panjika?year=${year}&month=${month}&latitude=${latitude}&longitude=${longitude}`);
+        const response = await axios.get(`http://localhost:8000/month_panjika?year=${year}&month=${month}&latitude=${latitude}&longitude=${longitude}&system=${system}`);
         setVrataData(response.data); 
       } catch (err) {
         if (axios.isAxiosError(err)) {
@@ -58,12 +59,12 @@ export const MonthPanjika: React.FC<MonthPanjikaProps> = ({year, month, latitude
             <th>Sunset</th>
             <th>Month</th>
             <th>System</th>
-            <th>Adhika Masa</th>
-            <th>Month Start</th>
-            <th>Month End</th>
+            <th>Is Adhika Masa ?</th>
+            {/* <th>Month Start</th>
+            <th>Month End</th> */}
             <th>Tithi Start</th>
             <th>Tithi End</th>
-            <th>Naksatra</th>
+            <th>Moon Naksatra</th>
             <th>Samvat</th>
           </tr>
         </thead>
@@ -78,8 +79,8 @@ export const MonthPanjika: React.FC<MonthPanjikaProps> = ({year, month, latitude
                 <td>{item.masa}</td>
                 <td>{item.system}</td>
                 <td>{item.adhika_masa ? "Yes" : "No"}</td>
-                <td>{new Date(item.masa_start).toLocaleString()}</td>
-                <td>{new Date(item.masa_end).toLocaleString()}</td>
+                {/* <td>{new Date(item.masa_start).toLocaleString()}</td>
+                <td>{new Date(item.masa_end).toLocaleString()}</td> */}
                 <td>{new Date(item.tithi_start).toLocaleString()}</td>
                 <td>{new Date(item.tithi_end).toLocaleString()}</td>
                 <td>{item.moon_naksatra[1]}</td>

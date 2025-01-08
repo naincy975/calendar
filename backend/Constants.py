@@ -59,3 +59,4 @@ Naksatra_list = [
 ]
 system = ["amanta", "purnimata"]
 ayanamsa = "citrapaksa"
+section = [ "full", "first_half", "second_half", "first_third", "second_third", "third_third" ]

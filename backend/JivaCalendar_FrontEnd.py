@@ -277,7 +277,7 @@ class Pancanga:
         ayanamsa=Constants.ayanamsa,
         verbose=True,
         dawn_duration=96,
-        section="full",
+        section=Constants.section[0],
         prev_masa=None,
         system=Constants.system[0],
     ):
@@ -286,14 +286,7 @@ class Pancanga:
         # section can be 'full','first_half','second_half','first_third','second_third','third_third'
         # In prev_month you can optionally tell what the previous month was. Useful in determining adhika masa
 
-        if section not in [
-            "full",
-            "first_half",
-            "second_half",
-            "first_third",
-            "second_third",
-            "third_third",
-        ]:
+        if section not in Constants.section:
             raise ValueError(
                 "section should be in 'full','first_half','second_half','first_third','second_third','third_third'"
             )
@@ -310,22 +303,22 @@ class Pancanga:
         # Now, month_start and month_end are not really the starting and ending dates of the month.
         # They are, instead, the starting and ending dates of the segment that the user wants.
         # Variable names were chosen before this feature was introduced
-        if section == "full":
+        if section == Constants.section[0]:
             month_start = self.datetime.date().replace(day=1)
             month_end = month_absolute_end
-        if section == "first_half":
+        if section == Constants.section[1]:
             month_start = self.datetime.date().replace(day=1)
             month_end = self.datetime.date().replace(day=16)
-        if section == "second_half":
+        if section == Constants.section[2]:
             month_start = self.datetime.date().replace(day=16)
             month_end = month_absolute_end
-        if section == "first_third":
+        if section == Constants.section[3]:
             month_start = self.datetime.date().replace(day=1)
             month_end = self.datetime.date().replace(day=11)
-        if section == "second_third":
+        if section == Constants.section[4]:
             month_start = self.datetime.date().replace(day=11)
             month_end = self.datetime.date().replace(day=21)
-        if section == "third_third":
+        if section == Constants.section[5]:
             month_start = self.datetime.date().replace(day=21)
             month_end = month_absolute_end
 
@@ -387,8 +380,8 @@ class Pancanga:
             m_nak = jce.find_naksatra_Ec(m_ang, ayanamsa=ayanamsa)
             s_nak = jce.find_naksatra_Ec(s_ang, ayanamsa=ayanamsa)
             samvat = get_samvat(date_, masa)
-            tit, tithi_s, tithi_e = get_tithi_start_end_Ec(
-            t=sunrise, accuracy=accuracy, get_start=True, which_tithi="cunt"
+            _, tithi_s, tithi_e = get_tithi_start_end_Ec(
+            t=sunrise, accuracy=accuracy, get_start=True, which_tithi="current"
         )
 
             dict_ = {
@@ -706,10 +699,10 @@ def get_year_data(
     year=2021,
     latitude=27.5650,
     longitude=77.6593,
+    system=Constants.system[0],
     accuracy=0.001,
     ayanamsa=Constants.ayanamsa,
     dawn_duration=96,
-    system=Constants.system[0],
     verbose=True,
 ):
     # default location is Vrindavan
@@ -735,14 +728,14 @@ def get_month_data(
     month=1,
     latitude=27.5650,
     longitude=77.6593,
+    system=Constants.system[0],
     accuracy=0.001,
     ayanamsa=Constants.ayanamsa,
     dawn_duration=96,
     verbose=True,
     comprehensive=False,
     timezone_offset=None,
-    section="full",
-    system=Constants.system[0],
+    section=Constants.section[0],
 ):
     # default location is Vrindavan
     date_ = (year, month, 15)  # middle of the month
