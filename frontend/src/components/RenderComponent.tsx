@@ -8,11 +8,10 @@ interface RenderComponenetProps {
     month: number; 
     longitude: number;
     latitude: number;
-    system: string;
     state: number;
 }
 
-export const RenderComponent: React.FC<RenderComponenetProps> = ({year, month, latitude, longitude, system, state}) => {
+export const RenderComponent: React.FC<RenderComponenetProps> = ({year, month, latitude, longitude, state}) => {
     const renderComponent = (state: number) => {
         switch (state) {
             case 1:
@@ -20,9 +19,9 @@ export const RenderComponent: React.FC<RenderComponenetProps> = ({year, month, l
             case 2:
                 return <YearEkadashi year={year} latitude={latitude} longitude={longitude} />;
             case 3:
-                return <MonthPanjika year={year} month={month} latitude={latitude} longitude={longitude} system={system} />;
+                return <MonthPanjika year={year} month={month} latitude={latitude} longitude={longitude}  />;
             case 4:
-                return <YearPanjika year={year} system={system} latitude={latitude} longitude={longitude} />;
+                return <YearPanjika year={year} latitude={latitude} longitude={longitude} />;
             case 5:
                 return <SpecialVrata />;
             default:

@@ -30,14 +30,14 @@ async def year_vrata(year: int, latitude: float, longitude: float):
 
 # Gets the month-panjika
 @app.get("/month_panjika")
-async def month_panjika(year: int, month: int, latitude: float, longitude: float, system: str):
-    data = jcf.get_month_data(year, month, latitude, longitude, system)
+async def month_panjika(year: int, month: int, latitude: float, longitude: float):
+    data = jcf.get_month_data(year, month, latitude, longitude)
     return data
 
 # Gets the year-panjika
 @app.get("/year_panjika")
-async def year_panjika(year: int, system: str, latitude: float, longitude: float):
-    data = jcf.get_year_data(year, latitude, longitude, system)
+async def year_panjika(year: int, latitude: float, longitude: float):
+    data = jcf.get_year_data(year, latitude, longitude)
     return data
 
 # Gets the special vratas in a given range of time period

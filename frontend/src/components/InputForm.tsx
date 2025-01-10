@@ -3,17 +3,20 @@ import { Button } from "./Button";
 import { RenderComponent } from "./RenderComponent";
 
 export const InputForm = () => {
-
-    const [state, setState] = useState(0);
-    const [year, setYear] = useState<number>(new Date().getFullYear());
-    const [month, setMonth] = useState<number>(new Date().getMonth()+1);
-    const [system, setSystem] = useState<string>("purnimata");
-    const [latitude, setLatitude] = useState<number>(27.58);
-    const [longitude, setLongitude] = useState<number>(77.7);
-    
-    const years = Array.from({ length: 200 }, (_, index) => 1900 + index);
     const months = Array.from({ length: 12 }, (_, index) => 1 + index);
-    ;
+    const [state, setState] = useState(0);
+    const [inputs, setInputs] = useState({
+        year: new Date().getFullYear(),
+        month: new Date().getMonth()+1,
+        latitude: 27.58,
+        longitude: 77.7
+    });
+    
+    const handleInputs = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>) => {
+        const { name, value } = e.target;
+        setInputs((prev) => ({...prev, [name]: value }));
+    }
+    
     const clickMonthEkadashi = () => {
         return setState(1);
     }
@@ -32,34 +35,21 @@ export const InputForm = () => {
     return (
         <>
             <div className="m-10">
-                <label>Year</label>
-                <select className="px-10 center py-2 border border-gray-300 rounded-lg my-5" value={year} onChange={((e) => {setYear(parseInt(e.target.value))})} >
-                    {years.map((year) => (
-                    <option key={year} value={year}>
-                        {year}
-                    </option>
-                    ))}
-                </select>
-                <label>Month</label>
-                <select className="px-10 center py-2 border border-gray-300 rounded-lg my-5" value={month} onChange={((e) => {setMonth(parseInt(e.target.value))})} >
+                <label htmlFor="year">Year</label>
+                <input className="p-2 border border-gray-300 rounded-lg my-5" type="number" name="year" value={inputs.year} onChange={(e) => {handleInputs(e)}} placeholder="Enter Year" />
+                
+                <label htmlFor="month">Month</label>
+                <select className="px-10 center py-2 border border-gray-300 rounded-lg my-5" value={inputs.month} name="month" onChange={(e) => {handleInputs(e)}}>
                     {months.map((month) => (
                     <option key={month} value={month}>
                         {month}
                     </option>
                     ))}
                 </select>
-                <label>System</label>
-                <select className="px-10 center py-2 border border-gray-300 rounded-lg my-5" value={system} onChange={((e) => {setSystem(e.target.value)})} >
-                    {["amanta", "purnimata"].map((system) => (
-                    <option key={system} value={system}>
-                        {system}
-                    </option>
-                    ))}
-                </select>
-                <label>Latitude</label>
-                <input className="p-2 border text-center border-gray-300 rounded-lg my-5" type="number" step="any" name="Latitude" value={latitude} onChange={((e) => {setLatitude(parseFloat(e.target.value))})}  placeholder="Enter Latitude" />
-                <label>Longitude</label>
-                <input className="p-2 border text-center border-gray-300 rounded-lg my-5" type="number" step="any" name="Longitude" value={longitude} onChange={((e) => setLongitude(parseFloat(e.target.value)))} placeholder="Enter Longitude" />
+                <label htmlFor="latitude">Latitude</label>
+                <input className="p-2 border text-center border-gray-300 rounded-lg my-5" type="number" step="any" name="Latitude" value={inputs.latitude} onChange={(e) => {handleInputs(e)}} placeholder="Enter Latitude" />
+                <label htmlFor="longitude">Longitude</label>
+                <input className="p-2 border text-center border-gray-300 rounded-lg my-5" type="number" step="any" name="Longitude" value={inputs.longitude} onChange={(e) => {handleInputs(e)}}  placeholder="Enter Longitude" />
             </div>
 
             <div className="my-10">
@@ -69,7 +59,7 @@ export const InputForm = () => {
                 <Button text={"Get Year Panjika"} handleClick={clickYearPanjika} />
                 <Button text={"Get Special Vrata"} handleClick={clickSpecialVrata} />
             </div>
-            <RenderComponent year={year} month={month} latitude={latitude} longitude={longitude} system={system} state={state} />
+            <RenderComponent year={inputs.year} month={inputs.month} latitude={inputs.latitude} longitude={inputs.longitude} state={state} />
         </>
     )
 }

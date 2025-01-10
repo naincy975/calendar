@@ -57,6 +57,6 @@ Naksatra_list = [
     "uttarabhadra",
     "revati",
 ]
-system = ["amanta", "purnimata"]
+system = ["amanta", "purnimanta"]
 ayanamsa = "citrapaksa"
 section = [ "full", "first_half", "second_half", "first_third", "second_third", "third_third" ]
