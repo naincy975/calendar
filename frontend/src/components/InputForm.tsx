@@ -47,9 +47,9 @@ export const InputForm = () => {
                     ))}
                 </select>
                 <label htmlFor="latitude">Latitude</label>
-                <input className="p-2 border text-center border-gray-300 rounded-lg my-5" type="number" step="any" name="Latitude" value={inputs.latitude} onChange={(e) => {handleInputs(e)}} placeholder="Enter Latitude" />
+                <input className="p-2 border text-center border-gray-300 rounded-lg my-5" type="number" step="any" name="latitude" value={inputs.latitude} onChange={(e) => {handleInputs(e)}} placeholder="Enter Latitude" />
                 <label htmlFor="longitude">Longitude</label>
-                <input className="p-2 border text-center border-gray-300 rounded-lg my-5" type="number" step="any" name="Longitude" value={inputs.longitude} onChange={(e) => {handleInputs(e)}}  placeholder="Enter Longitude" />
+                <input className="p-2 border text-center border-gray-300 rounded-lg my-5" type="number" step="any" name="longitude" value={inputs.longitude} onChange={(e) => {handleInputs(e)}}  placeholder="Enter Longitude" />
             </div>
 
             <div className="my-10">

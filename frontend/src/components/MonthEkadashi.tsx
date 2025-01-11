@@ -39,7 +39,7 @@ export const MonthEkadashi: React.FC<MonthEkadashiProps> = ({year, month, latitu
   }, []);
   if (error) return <p>{error}</p>;
   return (
-    <div className="mx-10 text-white">
+    <div className="mx-10">
       <h2 className="text-center">Month Ekadashi</h2>
       <table>
         <thead>

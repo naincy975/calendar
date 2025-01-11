@@ -50,7 +50,7 @@ export const YearPanjika: React.FC<YearPanjikaProps> = ({year, latitude, longitu
   }, []);
   if (error) return <p>{error}</p>;
   return (
-    <div className="mx-10 text-white">
+    <div className="mx-10">
       <h2 className="text-center">Year Panjika</h2>
       <table className="table table-striped table-bordered">
         <thead>
@@ -77,15 +77,15 @@ export const YearPanjika: React.FC<YearPanjikaProps> = ({year, latitude, longitu
                 <tr key={`${rowIndex}-${colIndex}`}>
                   <td>{item.gregorian_date}</td>
                   <td>{item.tithi}</td>
-                  <td>{new Date(item.tithi_start).toLocaleString()}</td>
-                  <td>{new Date(item.tithi_end).toLocaleString()}</td>
-                  <td>{new Date(item.sunrise).toLocaleString()}</td>
-                  <td>{new Date(item.sunset).toLocaleString()}</td>
+                  <td>{item.tithi_start}</td>
+                  <td>{item.tithi_end}</td>
+                  <td>{item.sunrise}</td>
+                  <td>{item.sunset}</td>
                   <td>{item.masa}</td>
                   <td>{item.system}</td>
                   <td>{item.adhika_masa ? "Yes" : "No"}</td>
-                  <td>{new Date(item.masa_start).toLocaleString()}</td>
-                  <td>{new Date(item.masa_end).toLocaleString()}</td>
+                  <td>{item.masa_start}</td>
+                  <td>{item.masa_end}</td>
                   <td>{item.moon_naksatra[1]}</td>
                   <td>{item.vikram_samvat}</td>
                 </tr>

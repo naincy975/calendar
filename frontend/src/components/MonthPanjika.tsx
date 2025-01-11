@@ -47,7 +47,7 @@ export const MonthPanjika: React.FC<MonthPanjikaProps> = ({year, month, latitude
   }, []);
   if (error) return <p>{error}</p>;
   return (
-    <div className="mx-10 text-white">
+    <div className="mx-10">
       <h2 className="text-center">Month Panjika</h2>
       <table className="table table-striped table-bordered">
         <thead>
