@@ -1,15 +1,13 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-// interface SpecialVrataProps {
-//   month_s: number; 
-//   year_s: number; 
-//   month_e: number;
-//   year_e: number;
-// }
-// React.FC<SpecialVrataProps> {month_s, year_s, month_e, year_e}
-// ?month_s=${month_s}&year_s=${year_s}&month_e=${month_e}&year_e=${year_e}
-export const SpecialVrata = () => {
+interface SpecialVrataProps {
+  year: number; 
+  latitude: number; 
+  longitude: number;
+}
+
+export const SpecialVrata: (React.FC<SpecialVrataProps>) =  ({year, latitude, longitude}) => {
   interface VrataData {
     [eventName: string]: Array<[string, string, string, number]>;
   }
@@ -19,7 +17,7 @@ export const SpecialVrata = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:8000/special_vrata`);
+        const response = await axios.get(`http://localhost:8000/special_vrata?year=${year}&latitude=${latitude}&longitude=${longitude}`);
         setVrataData(response.data); 
       } catch (err) {
         if (axios.isAxiosError(err)) {
@@ -53,8 +51,8 @@ export const SpecialVrata = () => {
               <tr key={`${eventName}-${index}`}>
                 <td>{eventName}</td>
                 <td>{details[0]}</td>
-                <td>{new Date(details[1]).toLocaleString()}</td>
-                <td>{new Date(details[2]).toLocaleString()}</td>
+                <td>{details[1]}</td>
+                <td>{details[2]}</td>
               </tr>
             ))
         )}

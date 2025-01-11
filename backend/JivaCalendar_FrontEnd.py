@@ -5,6 +5,8 @@ from datetime import datetime as dt
 from datetime import timezone as tmz
 import pytz
 import math
+from timezonefinder import TimezoneFinder
+from datetime import datetime
 # from astropy.coordinates import Angle
 
 
@@ -670,6 +672,13 @@ def local_to_utc(datetime, longitude):
 def utc_to_local(datetime, longitude):
     return datetime + timedelta(hours=longitude / 360 * 24)
 
+def get_timezone_offset(lat, lon):
+    tf = TimezoneFinder()
+    timezone_str = tf.timezone_at(lat=lat, lng=lon)
+    timezone = pytz.timezone(timezone_str)
+    now = datetime.now(timezone)
+    utc_offset = now.utcoffset().total_seconds() / 3600
+    return utc_offset
 
 # -----------------------------Utils for Front end Functions----------------------------------
 def convert_timezones(data, offset, data_type="month"):

@@ -23,7 +23,7 @@ export const RenderComponent: React.FC<RenderComponenetProps> = ({year, month, l
             case 4:
                 return <YearPanjika year={year} latitude={latitude} longitude={longitude} />;
             case 5:
-                return <SpecialVrata />;
+                return <SpecialVrata year={year} latitude={latitude} longitude={longitude}/>;
             default:
                 return "";
         }

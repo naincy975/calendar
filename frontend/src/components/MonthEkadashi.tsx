@@ -60,8 +60,8 @@ export const MonthEkadashi: React.FC<MonthEkadashiProps> = ({year, month, latitu
                 <td>{item.type}</td>
                 <td>{item["naksatra yoga"]}</td>
                 <td>{item.info}</td>
-                <td>{new Date(item.parana[0]).toLocaleString()}</td>
-                <td>{new Date(item.parana[1]).toLocaleString()}</td>
+                <td>{item.parana[0]}</td>
+                <td>{item.parana[1]}</td>
               </tr>
             ))
           ) : ""}
