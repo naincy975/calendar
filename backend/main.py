@@ -32,27 +32,28 @@ async def year_vrata(year: int, latitude: float, longitude: float):
 @app.get("/month_panjika")
 async def month_panjika(year: int, month: int, latitude: float, longitude: float):
     data = jcf.get_month_data(year, month, latitude, longitude)
-    timezone_offset = jcf.get_timezone_offset(latitude, longitude)
-    if timezone_offset is not None:
-        data = jcf.convert_timezones(data, offset=timezone_offset)
+    # timezone_offset = jcf.get_timezone_offset(latitude, longitude)
+    # if timezone_offset is not None:
+    #     data = jcf.convert_timezones(data, offset=timezone_offset)
     return data
 
 # Gets the year-panjika
 @app.get("/year_panjika")
 async def year_panjika(year: int, latitude: float, longitude: float):
     data = jcf.get_year_data(year, latitude, longitude)
-    timezone_offset = jcf.get_timezone_offset(latitude, longitude)
-    new_data = []
-    for i in data:
-        new_data += [jcf.convert_timezones(i, offset=timezone_offset)]
-    return new_data
+    # timezone_offset = jcf.get_timezone_offset(latitude, longitude)
+    # new_data = []
+    # for i in data:
+    #     new_data += [jcf.convert_timezones(i, offset=timezone_offset)]
+    return data
 
 # Gets the special vratas for a year
 @app.get("/special_vrata")
 async def special_vrata(year: int, latitude: float, longitude: float):
-    timezone_offset = jcf.get_timezone_offset(latitude, longitude)
+    # timezone_offset = jcf.get_timezone_offset(latitude, longitude)
     data = jcf.get_year_data(year, latitude, longitude)
-    special_vratas = gv.calculate_vrata(data,timezone_offset=timezone_offset)
+    special_vratas = gv.calculate_vrata(data)
+    # special_vratas = gv.calculate_vrata(data,timezone_offset=timezone_offset)
     return special_vratas
 
 

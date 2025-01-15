@@ -435,7 +435,7 @@ def get_month_vrata(
     filtered_vratas = [
         v for v in vratas if v["date"].month == month
     ]  # Because some vratas of prev and next month also show up
-    timezone_offset = jcf.get_timezone_offset(latitude, longitude)
+    # timezone_offset = jcf.get_timezone_offset(latitude, longitude)
     if timezone_offset is not None:
         filtered_vratas = convert_timezones(filtered_vratas, timezone_offset)
     return filtered_vratas
@@ -509,7 +509,7 @@ def get_year_vrata(
         )
         vrata_instance = h.HVV_test(accuracy=accuracy)
         all_vratas += vrata_instance
-    timezone_offset = jcf.get_timezone_offset(latitude, longitude)
+    # timezone_offset = jcf.get_timezone_offset(latitude, longitude)
     if timezone_offset is not None:
         all_vratas = convert_timezones(all_vratas, timezone_offset)
     if verbose:
