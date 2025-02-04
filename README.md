@@ -24,6 +24,12 @@ The ```ayanamsa``` can be a string ('citrapaksa', 'revati' etc.) or a floating p
  
 
 
+Steps to run the application:
+
+1. From frontend, run "npm run dev" 
+2. Navigate through: http://localhost:5173/
+3. On the other terminal, move to backend folder,
+4. Run uvicorn main:app --reload
 
 
 To Do's for Utkarsh
@@ -32,3 +38,5 @@ To Do's for Utkarsh
 2. Add more timezones
 
 Cheers! Radhe!
+
+
