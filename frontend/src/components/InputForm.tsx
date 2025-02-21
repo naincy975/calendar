@@ -15,6 +15,7 @@ export const InputForm = () => {
     const handleInputs = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>) => {
         const { name, value } = e.target;
         setInputs((prev) => ({...prev, [name]: value }));
+        setState(0);
     }
     
     const clickMonthEkadashi = () => {
